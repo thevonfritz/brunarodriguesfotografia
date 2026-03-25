@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bruna Rodrigues Fotografia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+    :root {
+      --p:      #7c3fbf;
+      --p-mid:  #9d62d4;
+      --p-pale: #f3ecff;
+      --p-light:#e4d2f8;
+      --text:   #160f26;
+      --soft:   #5c4872;
+      --muted:  #9888aa;
+      --border: rgba(124,63,191,.13);
+      --surf:   #faf8fd;
+    }
+
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',sans-serif; color:var(--text); background:#fff; overflow-x:hidden; }
+
+    .reveal { opacity:0; transform:translateY(32px); transition:opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left  { opacity:0; transform:translateX(-32px); transition:opacity .7s ease, transform .7s ease; }
+    .reveal-right { opacity:0; transform:translateX(32px);  transition:opacity .7s ease, transform .7s ease; }
+    .reveal-left.visible, .reveal-right.visible { opacity:1; transform:translateX(0); }
+    .d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;} .d4{transition-delay:.4s;}
+
+    header {
+      position:sticky; top:0; z-index:300;
+      background:rgba(255,255,255,.95); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
+      border-bottom:1px solid var(--border); box-shadow:0 2px 24px rgba(124,63,191,.07);
+    }
+    .h-inner {
+      max-width:1120px; margin:0 auto; padding:0 32px;
+      height:64px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .logo { font-family:'Times New Roman',Times,serif; font-size:1.2rem; font-weight:700; font-style:italic; letter-spacing:.07em; text-decoration:none; color:var(--p); }
+    nav { display:flex; gap:28px; list-style:none; }
+    nav a { font-size:.73rem; letter-spacing:.1em; text-transform:uppercase; color:var(--soft); text-decoration:none; transition:color .2s; }
+    nav a:hover { color:var(--p); }
+    .h-btn { padding:8px 20px; border-radius:100px; font-size:.73rem; letter-spacing:.09em; text-transform:uppercase; font-weight:500; text-decoration:none; background:var(--p); color:#fff; box-shadow:0 3px 14px rgba(124,63,191,.3); transition:all .2s; }
+    .h-btn:hover { background:#6530a8; }
+
+    .mob-menu-btn { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; z-index:400; }
+    .mob-menu-btn span { display:block; width:22px; height:2px; background:var(--p); border-radius:2px; transition:all .3s ease; }
+    .mob-menu-btn.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .mob-menu-btn.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .mob-menu-btn.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+    .mob-nav {
+      display:none; position:fixed; top:0; left:0; right:0; z-index:350;
+      background:rgba(255,255,255,.98); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+      padding:72px 28px 36px; border-bottom:1px solid var(--border);
+      box-shadow:0 8px 40px rgba(124,63,191,.12); flex-direction:column;
+      transform:translateY(-110%); transition:transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .mob-nav.open { transform:translateY(0); }
+    .mob-nav a { display:block; padding:15px 0; font-size:.9rem; letter-spacing:.12em; text-transform:uppercase; color:var(--soft); text-decoration:none; border-bottom:1px solid var(--border); transition:color .2s; }
+    .mob-nav a:hover { color:var(--p); }
+    .mob-nav .mob-cta { margin-top:20px; display:block; text-align:center; padding:14px; background:var(--p); color:#fff !important; border-radius:100px; font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500; border-bottom:none !important; box-shadow:0 4px 16px rgba(124,63,191,.3); }
+
+    .wrap { max-width:1120px; margin:0 auto; padding:0 32px; }
+    .tag { display:inline-block; font-size:.66rem; letter-spacing:.26em; text-transform:uppercase; color:var(--p); background:var(--p-pale); padding:5px 14px; border-radius:100px; margin-bottom:16px; font-weight:500; }
+    .ttl { font-family:'Times New Roman',Times,serif; font-size:clamp(1.8rem,4vw,3rem); font-weight:400; font-style:italic; line-height:1.15; margin-bottom:14px; }
+    .ttl em { font-style:italic; font-weight:700; color:var(--p); font-family:'Times New Roman',Times,serif; }
+    .lead { font-size:.93rem; color:var(--soft); line-height:1.82; max-width:520px; font-weight:300; }
+    .btn { display:inline-block; padding:13px 30px; border-radius:100px; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500; text-decoration:none; transition:all .2s; cursor:pointer; border:none; }
+    .btn-p { background:var(--p); color:#fff; box-shadow:0 5px 18px rgba(124,63,191,.32); }
+    .btn-p:hover { background:#6530a8; transform:translateY(-2px); }
+    .btn-o { border:1.5px solid var(--border); color:var(--soft); background:transparent; }
+    .btn-o:hover { border-color:var(--p); color:var(--p); }
+
+    .hero { background:linear-gradient(160deg,#fff 0%,#f8f2ff 55%,#eef3ff 100%); padding:88px 0 100px; overflow:hidden; position:relative; }
+    .hero::after { content:''; position:absolute; top:-160px; right:-160px; width:580px; height:580px; border-radius:50%; background:radial-gradient(circle,rgba(124,63,191,.09),transparent 70%); pointer-events:none; }
+    .hero-g { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; position:relative; z-index:1; }
+    .eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:.69rem; letter-spacing:.24em; text-transform:uppercase; color:var(--p); margin-bottom:22px; }
+    .eyebrow::before { content:''; width:22px; height:1px; background:var(--p); }
+    .hero h1 { font-family:'Times New Roman',Times,serif; font-size:clamp(2.4rem,5vw,4.8rem); font-weight:400; font-style:italic; line-height:1.06; margin-bottom:22px; }
+    .hero h1 em { font-style:italic; font-weight:700; color:var(--p); font-family:'Times New Roman',Times,serif; }
+    .hero-sub { font-size:.95rem; color:var(--soft); line-height:1.82; max-width:440px; margin-bottom:36px; font-weight:300; }
+    .hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
+
+    .hero-photos { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto; gap:20px; }
+    .hero-photos .hphoto { border-radius:28px; overflow:hidden; border:1px solid rgba(255,255,255,.2); box-shadow:0 8px 32px rgba(124,63,191,.1); }
+    .hero-photos .hphoto img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero-photos .hphoto:first-child { grid-row:span 2; aspect-ratio:3/4; }
+    .hero-photos .hphoto:not(:first-child) { aspect-ratio:4/3; }
+
+    .hero-mobile-strip { display:none; gap:12px; margin-top:28px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:6px; }
+    .hero-mobile-strip::-webkit-scrollbar { display:none; }
+    .hero-mobile-strip .hphoto { flex:0 0 68vw; max-width:260px; aspect-ratio:3/4; border-radius:20px; overflow:hidden; scroll-snap-align:start; border:1px solid rgba(124,63,191,.15); box-shadow:0 8px 32px rgba(124,63,191,.1); }
+    .hero-mobile-strip .hphoto img { width:100%; height:100%; object-fit:cover; display:block; }
+    .strip-hint { display:none; align-items:center; gap:6px; margin-top:10px; font-size:.68rem; color:var(--muted); letter-spacing:.08em; }
+    .strip-hint svg { width:14px; height:14px; stroke:var(--muted); fill:none; stroke-width:1.5; }
+
+    .gallery { padding:100px 0; background:var(--surf); }
+    .g-head { margin-bottom:44px; }
+    .insta-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .insta-item { position:relative; aspect-ratio:1/1; overflow:hidden; cursor:zoom-in; border-radius:20px; border:1px solid rgba(255,255,255,.2); box-shadow:0 8px 32px rgba(124,63,191,.08); transition:all .3s ease; }
+    .insta-item:hover { transform:translateY(-4px); box-shadow:0 12px 48px rgba(124,63,191,.15); }
+    .insta-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; }
+    .insta-overlay { position:absolute; inset:0; background:rgba(124,63,191,.55); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; opacity:0; transition:opacity .3s; }
+    .insta-item:hover .insta-overlay { opacity:1; }
+    .insta-item:hover img { transform:scale(1.06); }
+    .insta-overlay svg { width:28px; height:28px; stroke:#fff; fill:none; stroke-width:1.5; }
+    .insta-overlay span { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:#fff; }
+    .insta-item.wide { grid-column:span 2; aspect-ratio:2/1; }
+    .insta-strip .insta-item:nth-child(1) { grid-column:span 2; aspect-ratio:2/1; }
+    .insta-cta { margin-top:24px; text-align:center; }
+    .insta-link { display:inline-flex; align-items:center; gap:10px; padding:11px 24px; border-radius:100px; border:1.5px solid var(--border); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--soft); text-decoration:none; transition:all .2s; }
+    .insta-link:hover { border-color:var(--p); color:var(--p); }
+    .insta-icon { width:18px; height:18px; }
+
+    .why { padding:100px 0; }
+    .why-g { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:48px; }
+    .wcard { padding:28px 24px; border-radius:20px; background:#fff; border:1px solid var(--border); box-shadow:0 3px 18px rgba(124,63,191,.06); transition:transform .25s, box-shadow .25s; }
+    .wcard:hover { transform:translateY(-6px); box-shadow:0 12px 32px rgba(124,63,191,.14); }
+    .wico { width:48px; height:48px; border-radius:13px; margin-bottom:16px; display:flex; align-items:center; justify-content:center; background:var(--p-pale); flex-shrink:0; }
+    .wico svg { width:24px; height:24px; stroke:var(--p); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+    .wcard h3 { font-family:'Times New Roman',Times,serif; font-size:1.15rem; font-weight:400; font-style:italic; margin-bottom:8px; }
+    .wcard p { font-size:.82rem; color:var(--soft); line-height:1.75; }
+
+    .pkgs { padding:100px 0; background:var(--surf); }
+    .pkg-g { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:48px; }
+    .pcard { padding:36px 28px; border-radius:24px; background:#fff; border:1px solid var(--border); box-shadow:0 4px 24px rgba(124,63,191,.07); display:flex; flex-direction:column; position:relative; overflow:hidden; transition:transform .25s, box-shadow .25s; }
+    .pcard:hover { transform:translateY(-8px); box-shadow:0 14px 44px rgba(124,63,191,.16); }
+    .pcard.star { background:linear-gradient(155deg,#f5eeff,#ece0ff); border-color:rgba(124,63,191,.3); }
+    .pcard.star::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--p),var(--p-mid)); }
+    .pbadge { position:absolute; top:16px; right:16px; background:var(--p); color:#fff; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:4px 12px; border-radius:100px; font-weight:500; }
+    .pname { font-size:.69rem; letter-spacing:.22em; text-transform:uppercase; color:var(--p); margin-bottom:10px; font-weight:500; }
+    .pprice { font-family:'Times New Roman',Times,serif; font-size:2.8rem; font-weight:400; font-style:italic; line-height:1; margin-bottom:5px; }
+    .pprice sup { font-size:1rem; vertical-align:super; }
+    .psub { font-size:.78rem; color:var(--muted); margin-bottom:24px; }
+    .pdiv { height:1px; background:var(--border); margin-bottom:20px; }
+    .plist { list-style:none; flex:1; }
+    .plist li { font-size:.82rem; color:var(--soft); padding:6px 0; border-bottom:1px solid rgba(124,63,191,.06); display:flex; align-items:flex-start; gap:9px; line-height:1.55; }
+    .plist li::before { content:'✦'; color:var(--p); font-size:.56rem; margin-top:5px; flex-shrink:0; }
+    .pbtn { margin-top:24px; display:block; text-align:center; padding:12px 22px; border-radius:100px; font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; font-weight:500; transition:all .2s; }
+    .pbtn-f { background:var(--p); color:#fff; box-shadow:0 4px 14px rgba(124,63,191,.32); }
+    .pbtn-f:hover { background:#6530a8; }
+    .pbtn-o { border:1.5px solid var(--border); color:var(--soft); }
+    .pbtn-o:hover { border-color:var(--p); color:var(--p); }
+
+    .extras { padding:80px 0; }
+    .ext-g { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:40px; }
+    .eitem { padding:20px; border-radius:16px; background:#fff; border:1px solid var(--border); display:flex; flex-direction:column; gap:8px; transition:border-color .2s, box-shadow .2s; }
+    .eitem:hover { border-color:var(--p-mid); box-shadow:0 4px 16px rgba(124,63,191,.1); }
+    .ename { font-size:.8rem; color:var(--soft); line-height:1.4; }
+    .eprice { font-family:'Times New Roman',Times,serif; font-size:1.4rem; color:var(--p); font-weight:700; font-style:italic; }
+
+    .contact-s { padding:100px 0; position:relative; overflow:hidden; }
+    .contact-s::before { content:''; position:absolute; inset:0; z-index:0; background-image:url('imgs/Captura de tela 2026-03-25 132634.png'); background-size:cover; background-position:center 8%; filter:blur(3px) brightness(.55) saturate(1.2); transform:scale(1.06); }
+    .contact-s::after { content:''; position:absolute; inset:0; z-index:1; background:linear-gradient(160deg,rgba(80,20,140,.62) 0%,rgba(124,63,191,.48) 45%,rgba(40,10,80,.72) 100%); }
+    .contact-s .wrap { position:relative; z-index:2; }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+    .contact-info h2 { font-family:'Times New Roman',Times,serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:400; font-style:italic; margin-bottom:16px; color:#fff; }
+    .contact-info h2 em { font-style:italic; font-weight:700; color:rgba(255,255,255,.95); font-family:'Times New Roman',Times,serif; }
+    .contact-info p { font-size:.92rem; color:rgba(255,255,255,.75); line-height:1.8; margin-bottom:30px; }
+    .contact-links { display:flex; flex-direction:column; gap:12px; }
+    .clink { display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:14px; background:rgba(255,255,255,.1); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.2); font-size:.84rem; color:rgba(255,255,255,.85); text-decoration:none; transition:all .2s; }
+    .clink:hover { border-color:rgba(255,255,255,.5); color:#fff; transform:translateX(4px); background:rgba(255,255,255,.15); }
+    .clink-icon { width:40px; height:40px; border-radius:10px; background:rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .clink-icon svg { width:20px; height:20px; stroke:#fff; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+
+    .contact-form { border:1px solid rgba(255,255,255,.25); border-radius:24px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,.2); background:rgba(255,255,255,.08); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+    .contact-form-inner { padding:40px 36px; }
+    .form-title { font-family:'Times New Roman',Times,serif; font-size:1.5rem; font-weight:400; font-style:italic; margin-bottom:6px; color:#fff; }
+    .form-sub { font-size:.82rem; color:rgba(255,255,255,.55); }
+    .wa-cta-btn { display:flex; align-items:center; justify-content:center; gap:12px; width:100%; padding:16px; border-radius:100px; background:rgba(200,120,255,.9); color:#fff; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500; text-decoration:none; border:1px solid rgba(255,255,255,.3); box-shadow:0 5px 18px rgba(124,63,191,.4); transition:all .2s; }
+    .wa-cta-btn:hover { background:rgba(220,140,255,.95); transform:translateY(-2px); }
+    .wa-cta-btn svg { width:20px; height:20px; flex-shrink:0; }
+    .wa-hint { text-align:center; font-size:.74rem; color:rgba(255,255,255,.38); margin-top:18px; line-height:1.7; }
+
+    .lg-backdrop { display:none; position:fixed; inset:0; z-index:1000; background:rgba(22,15,38,.65); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); opacity:0; transition:opacity .3s ease; align-items:center; justify-content:center; }
+    .lg-backdrop.active { display:flex; opacity:1; }
+    .lg-glass { position:relative; max-width:85vw; max-height:85vh; border-radius:32px; background:rgba(255,255,255,.08); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,.25); box-shadow:0 25px 80px rgba(124,63,191,.35), inset 0 1px 0 rgba(255,255,255,.1); overflow:hidden; display:flex; align-items:center; justify-content:center; animation:lgZoom .4s cubic-bezier(.34,.69,.56,1.08); }
+    @keyframes lgZoom { from{opacity:0;transform:scale(.75)} to{opacity:1;transform:scale(1)} }
+    .lg-img { width:100%; height:100%; object-fit:contain; display:block; max-width:100%; max-height:100%; }
+    .lg-close { position:absolute; top:14px; right:14px; width:42px; height:42px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:20px; font-weight:300; transition:all .3s; z-index:10; padding:0; line-height:1; }
+    .lg-close:hover { background:rgba(255,255,255,.25); transform:rotate(90deg); }
+    .lg-nav { position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:24px; transition:all .3s; z-index:10; padding:0; line-height:1; }
+    .lg-nav:hover { background:rgba(255,255,255,.2); }
+    .lg-prev { left:14px; } .lg-next { right:14px; }
+
+    footer { padding:28px 32px; border-top:1px solid var(--border); text-align:center; }
+    footer p { font-size:.76rem; color:var(--muted); line-height:2; }
+    footer a { color:var(--p); text-decoration:none; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px){
+      .hero-g            { grid-template-columns:1fr; gap:0; }
+      .hero-photos       { display:none; }
+      .hero-mobile-strip { display:flex; }
+      .strip-hint        { display:flex; }
+      .contact-grid      { grid-template-columns:1fr; gap:36px; }
+      .contact-s         { padding:80px 0; }
+      .wrap              { padding:0 24px; }
+      .h-inner           { padding:0 24px; }
+      .insta-strip       { grid-template-columns:repeat(3,1fr); gap:10px; }
+      .insta-strip .insta-item:nth-child(1) { grid-column:span 3; aspect-ratio:16/7; }
+      .insta-item.wide   { grid-column:span 2; }
+    }
+    @media(max-width:768px){
+      .h-inner { height:56px; padding:0 20px; }
+      .logo { font-size:1rem; }
+      nav { display:none; } .h-btn { display:none; }
+      .mob-menu-btn { display:flex; } .mob-nav { display:flex; }
+      .wrap { padding:0 20px; }
+      .ttl { font-size:clamp(1.55rem,5.5vw,2.3rem); }
+      .lead { font-size:.87rem; }
+      .tag { font-size:.63rem; padding:4px 12px; margin-bottom:12px; }
+      .hero { padding:52px 0 60px; }
+      .hero::after { width:300px; height:300px; top:-80px; right:-70px; }
+      .eyebrow { font-size:.66rem; margin-bottom:16px; }
+      .hero h1 { font-size:clamp(1.9rem,7.5vw,2.8rem); margin-bottom:14px; line-height:1.1; }
+      .hero-sub { font-size:.87rem; margin-bottom:22px; max-width:100%; }
+      .hero-mobile-strip { margin-top:24px; }
+      .hero-mobile-strip .hphoto { flex:0 0 64vw; }
+      .gallery { padding:68px 0; } .g-head { margin-bottom:26px; }
+      .insta-strip { grid-template-columns:repeat(2,1fr); gap:7px; }
+      .insta-strip .insta-item:nth-child(1) { grid-column:span 2; aspect-ratio:16/9; }
+      .insta-item.wide { grid-column:span 2; aspect-ratio:16/9; }
+      .insta-item { border-radius:14px; }
+      .insta-cta { margin-top:16px; }
+      .insta-link { padding:10px 18px; font-size:.72rem; }
+      .lg-glass { max-width:96vw; max-height:88vh; border-radius:20px; }
+      .lg-close { width:36px; height:36px; top:10px; right:10px; font-size:17px; }
+      .lg-nav { width:38px; height:38px; font-size:20px; }
+      .lg-prev { left:8px; } .lg-next { right:8px; }
+      .why { padding:68px 0; }
+      .why-g { grid-template-columns:1fr 1fr; gap:10px; margin-top:26px; }
+      .wcard { padding:18px 14px; }
+      .wico { width:40px; height:40px; border-radius:10px; margin-bottom:12px; }
+      .wico svg { width:19px; height:19px; }
+      .wcard h3 { font-size:.97rem; margin-bottom:6px; } .wcard p { font-size:.77rem; line-height:1.65; }
+      .pkgs { padding:68px 0; }
+      .pkg-g { grid-template-columns:1fr; gap:14px; margin-top:26px; }
+      .pcard { padding:24px 20px; border-radius:20px; }
+      .pprice { font-size:2.3rem; } .plist li { font-size:.8rem; }
+      .extras { padding:52px 0; }
+      .ext-g { grid-template-columns:repeat(2,1fr); gap:9px; margin-top:22px; }
+      .eitem { padding:15px 13px; border-radius:13px; }
+      .ename { font-size:.75rem; } .eprice { font-size:1.2rem; }
+      .contact-s { padding:60px 0; }
+      .contact-info h2 { font-size:clamp(1.55rem,5.5vw,2.2rem); margin-bottom:12px; }
+      .contact-info p { font-size:.85rem; margin-bottom:20px; }
+      .clink { padding:12px 14px; font-size:.8rem; border-radius:12px; }
+      .clink-icon { width:36px; height:36px; border-radius:8px; }
+      .clink-icon svg { width:17px; height:17px; }
+      .contact-form { border-radius:20px; }
+      .contact-form-inner { padding:26px 20px; }
+      .form-title { font-size:1.3rem; }
+      .form-sub { font-size:.78rem; margin-bottom:24px !important; }
+      .wa-cta-btn { font-size:.76rem; padding:14px; }
+      .wa-hint { font-size:.7rem; }
+      footer { padding:20px; } footer p { font-size:.72rem; }
+    }
+    @media(max-width:480px){
+      .h-inner { height:52px; padding:0 16px; } .logo { font-size:.9rem; }
+      .wrap { padding:0 16px; }
+      .hero { padding:40px 0 52px; }
+      .hero::after { width:220px; height:220px; top:-60px; right:-50px; }
+      .eyebrow { font-size:.62rem; gap:7px; margin-bottom:12px; }
+      .eyebrow::before { width:16px; }
+      .hero h1 { font-size:clamp(1.7rem,8.5vw,2.4rem); margin-bottom:12px; }
+      .hero-sub { font-size:.83rem; line-height:1.72; margin-bottom:18px; }
+      .hero-btns { flex-direction:column; gap:8px; }
+      .btn { width:100%; text-align:center; padding:12px 18px; font-size:.71rem; }
+      .hero-mobile-strip { margin-top:18px; gap:8px; }
+      .hero-mobile-strip .hphoto { flex:0 0 74vw; max-width:240px; border-radius:16px; }
+      .strip-hint { font-size:.64rem; margin-top:7px; }
+      .ttl { font-size:clamp(1.35rem,6vw,1.9rem); line-height:1.18; }
+      .tag { font-size:.61rem; padding:4px 11px; } .lead { font-size:.82rem; line-height:1.75; }
+      .gallery { padding:52px 0; } .g-head { margin-bottom:18px; }
+      .insta-strip { grid-template-columns:1fr 1fr; gap:4px; }
+      .insta-strip .insta-item:nth-child(1) { grid-column:span 2; aspect-ratio:4/3; }
+      .insta-item { aspect-ratio:1/1; border-radius:10px; }
+      .insta-item.wide { grid-column:span 2; aspect-ratio:4/3; }
+      .insta-overlay svg { width:20px; height:20px; }
+      .insta-overlay span { font-size:.6rem; }
+      .insta-link { padding:9px 16px; font-size:.66rem; gap:7px; }
+      .insta-icon { width:14px; height:14px; } .insta-cta { margin-top:12px; }
+      .lg-glass { max-width:98vw; max-height:90vh; border-radius:14px; }
+      .lg-close { width:32px; height:32px; top:8px; right:8px; font-size:15px; }
+      .lg-nav { width:32px; height:32px; font-size:17px; }
+      .lg-prev { left:6px; } .lg-next { right:6px; }
+      .why { padding:52px 0; }
+      .why-g { grid-template-columns:1fr; gap:9px; margin-top:18px; }
+      .wcard { padding:16px 14px; display:flex; align-items:flex-start; gap:13px; border-radius:16px; }
+      .wico { margin-bottom:0; flex-shrink:0; width:38px; height:38px; border-radius:9px; }
+      .wico svg { width:17px; height:17px; }
+      .wcard h3 { font-size:.92rem; margin-bottom:4px; } .wcard p { font-size:.75rem; line-height:1.6; }
+      .pkgs { padding:52px 0; } .pkg-g { gap:12px; margin-top:18px; }
+      .pcard { padding:20px 16px; border-radius:18px; }
+      .pprice { font-size:1.9rem; } .psub { font-size:.73rem; margin-bottom:18px; }
+      .plist li { font-size:.76rem; padding:5px 0; }
+      .pbtn { padding:11px; font-size:.69rem; margin-top:18px; }
+      .pbadge { font-size:.57rem; padding:3px 10px; top:14px; right:14px; }
+      .extras { padding:44px 0; }
+      .ext-g { grid-template-columns:1fr 1fr; gap:7px; margin-top:16px; }
+      .eitem { padding:13px 11px; border-radius:11px; gap:5px; }
+      .ename { font-size:.71rem; line-height:1.35; } .eprice { font-size:1.1rem; }
+      .contact-s { padding:52px 0; } .contact-grid { gap:24px; }
+      .contact-info h2 { font-size:clamp(1.25rem,6.5vw,1.65rem); margin-bottom:10px; }
+      .contact-info p { font-size:.8rem; margin-bottom:16px; line-height:1.7; }
+      .contact-links { gap:8px; }
+      .clink { padding:10px 12px; font-size:.75rem; gap:9px; border-radius:10px; }
+      .clink-icon { width:32px; height:32px; border-radius:7px; }
+      .clink-icon svg { width:15px; height:15px; }
+      .contact-form { border-radius:16px; }
+      .contact-form-inner { padding:18px 15px; }
+      .form-title { font-size:1.15rem; margin-bottom:4px; }
+      .form-sub { font-size:.74rem; margin-bottom:20px !important; }
+      .wa-cta-btn { padding:13px 16px; font-size:.7rem; gap:9px; }
+      .wa-cta-btn svg { width:17px; height:17px; }
+      .wa-hint { font-size:.66rem; margin-top:14px; }
+      footer { padding:14px 16px; } footer p { font-size:.68rem; line-height:1.85; }
+    }
+    @media(max-width:360px){
+      .wrap { padding:0 13px; } .h-inner { padding:0 13px; } .logo { font-size:.85rem; }
+      .hero h1 { font-size:clamp(1.5rem,9vw,2rem); }
+      .ttl { font-size:clamp(1.2rem,6.5vw,1.6rem); }
+      .hero-mobile-strip .hphoto { flex:0 0 82vw; max-width:220px; }
+      .insta-strip { grid-template-columns:1fr; gap:4px; }
+      .insta-strip .insta-item:nth-child(1) { grid-column:span 1; aspect-ratio:4/3; }
+      .insta-item.wide { grid-column:span 1; aspect-ratio:4/3; }
+      .ext-g { grid-template-columns:1fr; gap:7px; }
+      .why-g { grid-template-columns:1fr; }
+      .pkg-g { grid-template-columns:1fr; }
+      .pprice { font-size:1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="h-inner">
+    <a href="#" class="logo">Bruna <em>Rodrigues</em></a>
+    <nav>
+      <a href="#galeria">Galeria</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#pacotes">Pacotes</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a href="#contato" class="h-btn">Agendar</a>
+    <button class="mob-menu-btn" id="mob-menu-btn" aria-label="Menu" onclick="toggleMobNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- DRAWER MOBILE -->
+<div class="mob-nav" id="mob-nav">
+  <a href="#galeria"      onclick="closeMobNav()">Galeria</a>
+  <a href="#diferenciais" onclick="closeMobNav()">Diferenciais</a>
+  <a href="#pacotes"      onclick="closeMobNav()">Pacotes</a>
+  <a href="#contato"      onclick="closeMobNav()">Contato</a>
+  <a href="#contato" class="mob-cta" onclick="closeMobNav()">Agendar Sess&#227;o</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-g">
+      <div class="reveal-left">
+        <div class="eyebrow">Fotografia de Casamento</div>
+        <h1>Eternize cada<br><em>instante &#250;nico</em><br>do seu amor</h1>
+        <p class="hero-sub">Minha paix&#227;o &#233; transformar emo&#231;&#245;es em imagens que contar&#227;o a hist&#243;ria do seu grande dia para sempre. Fotos aut&#234;nticas, espont&#226;neas e cheias de personalidade.</p>
+        <div class="hero-btns">
+          <a href="#pacotes" class="btn btn-p">Ver Pacotes</a>
+          <a href="#contato" class="btn btn-o">Falar com Bruna</a>
+        </div>
+        <div class="hero-mobile-strip">
+          <div class="hphoto"><img src="imgs/Captura de tela 2026-03-25 132634.png" alt="Noiva" loading="lazy"/></div>
+          <div class="hphoto"><img src="imgs/Captura de tela 2026-03-25 132627.png" alt="Casal" loading="lazy"/></div>
+          <div class="hphoto"><img src="imgs/Captura de tela 2026-03-25 132617.png" alt="Beijo" loading="lazy"/></div>
+        </div>
+        <div class="strip-hint">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          Deslize para ver mais
+        </div>
+      </div>
+      <div class="hero-photos reveal-right">
+        <div class="hphoto"><img src="imgs/Captura de tela 2026-03-25 132634.png" alt="Noiva" loading="lazy"/></div>
+        <div class="hphoto"><img src="imgs/Captura de tela 2026-03-25 132627.png" alt="Casal" loading="lazy"/></div>
+        <div class="hphoto"><img src="imgs/Captura de tela 2026-03-25 132617.png" alt="Beijo" loading="lazy"/></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section class="gallery" id="galeria">
+  <div class="wrap">
+    <div class="g-head reveal">
+      <span class="tag">Portf&#243;lio</span>
+      <h2 class="ttl">Hist&#243;rias que<br><em>j&#225; eternizei</em></h2>
+    </div>
+    <div class="insta-strip reveal">
+      <div class="insta-item" onclick="openLG(0)">
+        <img src="imgs/Captura de tela 2026-03-25 132609.png" alt="Casamento" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+      <div class="insta-item" onclick="openLG(1)">
+        <img src="imgs/Captura de tela 2026-03-25 132603.png" alt="Casamento" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+      <div class="insta-item" onclick="openLG(2)">
+        <img src="imgs/Captura de tela 2026-03-25 132555.png" alt="Casal" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+      <div class="insta-item" onclick="openLG(3)">
+        <img src="imgs/Captura de tela 2026-03-25 132545.png" alt="Noivos" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+      <div class="insta-item wide" onclick="openLG(4)">
+        <img src="imgs/Captura de tela 2026-03-25 132536.png" alt="Beijo dos noivos" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+      <div class="insta-item" onclick="openLG(5)">
+        <img src="imgs/Captura de tela 2026-03-25 132526.png" alt="Noiva v&#233;u" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+      <div class="insta-item" onclick="openLG(6)">
+        <img src="imgs/Captura de tela 2026-03-25 132518.png" alt="Casal noivos" loading="lazy"/>
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Ampliar</span></div>
+      </div>
+    </div>
+    <div class="insta-cta reveal">
+      <a href="https://www.instagram.com/brurodriguesfotografia/" target="_blank" class="insta-link">
+        <svg class="insta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r=".7" fill="currentColor" stroke="none"/>
+        </svg>
+        Ver mais no Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section class="why" id="diferenciais">
+  <div class="wrap">
+    <span class="tag reveal">Por que me escolher</span>
+    <h2 class="ttl reveal">A experi&#234;ncia que o seu<br><em>casamento merece</em></h2>
+    <p class="lead reveal">Cada detalhe importa. Do olhar t&#237;mido antes do altar &#224; dan&#231;a que faz todo mundo sorrir &#8212; eu estarei l&#225;.</p>
+    <div class="why-g">
+      <div class="wcard reveal d1">
+        <div class="wico"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div><h3>Sensibilidade &amp; Experi&#234;ncia</h3><p>Capturo os momentos mais espont&#226;neos e emocionantes com um olhar atento &#224; beleza de cada detalhe.</p></div>
+      </div>
+      <div class="wcard reveal d2">
+        <div class="wico"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div><h3>Equipamento Profissional</h3><p>Fotos com alta qualidade e nitidez para que voc&#234; possa reviver cada instante com perfei&#231;&#227;o.</p></div>
+      </div>
+      <div class="wcard reveal d3">
+        <div class="wico"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+        <div><h3>Pacotes Personalizados</h3><p>Diferentes op&#231;&#245;es para atender &#224;s suas necessidades e or&#231;amento, do essencial ao completo.</p></div>
+      </div>
+      <div class="wcard reveal d4">
+        <div class="wico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <div><h3>Seguran&#231;a &amp; Confian&#231;a</h3><p>Profissionalismo do primeiro contato &#224; entrega final. Voc&#234; pode contar comigo em todos os momentos.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACOTES -->
+<section class="pkgs" id="pacotes">
+  <div class="wrap">
+    <span class="tag reveal">Investimento</span>
+    <h2 class="ttl reveal">Escolha o pacote<br><em>ideal para voc&#234;s</em></h2>
+    <div class="pkg-g">
+
+      <!-- ESSENCIAL -->
+      <div class="pcard reveal d1">
+        <div class="pname">Essencial</div>
+        <div class="pprice"><sup>R$</sup>2.350</div>
+        <div class="psub">O come&#231;o perfeito</div>
+        <div class="pdiv"></div>
+        <ul class="plist">
+          <li>6 a 8 horas de cobertura da cerim&#244;nia</li>
+          <li>In&#237;cio da festa &#8212; entrada dos noivos e fotos com convidados</li>
+          <li>2 Fot&#243;grafos</li>
+          <li>800 fotos editadas em alta resolu&#231;&#227;o</li>
+          <li>Entrega via link digital</li>
+        </ul>
+        <a href="https://wa.me/5517996278070?text=Ol%C3%A1%2C%20Bruna!%20Vim%20pelo%20seu%20site%20e%20tenho%20interesse%20no%20pacote%20*Essencial%20%E2%80%94%20R%24%202.350*%20%F0%9F%92%9C%20Pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F"
+           target="_blank" class="pbtn pbtn-o">Quero este pacote</a>
+      </div>
+
+      <!-- CLASSIC -->
+      <div class="pcard star reveal d2">
+        <span class="pbadge">Mais escolhido</span>
+        <div class="pname">Classic</div>
+        <div class="pprice"><sup>R$</sup>2.900</div>
+        <div class="psub">A experi&#234;ncia completa</div>
+        <div class="pdiv"></div>
+        <ul class="plist">
+          <li>8 a 10 horas de cobertura fotogr&#225;fica</li>
+          <li>Cerim&#244;nia + Festa Completa (principais eventos)</li>
+          <li>2 Fot&#243;grafos</li>
+          <li>Fotos ilimitadas dos eventos</li>
+          <li>Fotos editadas em alta resolu&#231;&#227;o</li>
+          <li>Entrega via link digital</li>
+        </ul>
+        <a href="https://wa.me/5517996278070?text=Ol%C3%A1%2C%20Bruna!%20Vim%20pelo%20seu%20site%20e%20tenho%20interesse%20no%20pacote%20*Classic%20%E2%80%94%20R%24%202.900*%20%F0%9F%92%9C%20Pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F"
+           target="_blank" class="pbtn pbtn-f">Quero este pacote</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="pcard reveal d3">
+        <div class="pname">Premium</div>
+        <div class="pprice"><sup>R$</sup>3.400</div>
+        <div class="psub">Tudo registrado, sem exce&#231;&#227;o</div>
+        <div class="pdiv"></div>
+        <ul class="plist">
+          <li>Pr&#233;-wedding incluso (8 a 10h de cobertura)</li>
+          <li>Making of da noiva</li>
+          <li>Cerim&#244;nia + Festa Completa (todos os momentos)</li>
+          <li>2 Fot&#243;grafos</li>
+          <li>Fotos ilimitadas dos eventos</li>
+          <li>Fotos editadas em alta resolu&#231;&#227;o</li>
+          <li>Entrega via link digital</li>
+        </ul>
+        <a href="https://wa.me/5517996278070?text=Ol%C3%A1%2C%20Bruna!%20Vim%20pelo%20seu%20site%20e%20tenho%20interesse%20no%20pacote%20*Premium%20%E2%80%94%20R%24%203.400*%20%F0%9F%92%9C%20Pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F"
+           target="_blank" class="pbtn pbtn-o">Quero este pacote</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ADICIONAIS -->
+<section class="extras" id="adicionais">
+  <div class="wrap">
+    <span class="tag reveal">Adicionais</span>
+    <h2 class="ttl reveal">Personalize ainda<br><em>mais a sua hist&#243;ria</em></h2>
+    <div class="ext-g">
+      <div class="eitem reveal d1"><span class="ename">Ensaio Pr&#233;-Casamento</span><span class="eprice">R$ 500</span></div>
+      <div class="eitem reveal d2"><span class="ename">Fot&#243;grafo Adicional</span><span class="eprice">R$ 700</span></div>
+      <div class="eitem reveal d3"><span class="ename">Story Maker</span><span class="eprice">R$ 1.500</span></div>
+      <div class="eitem reveal d1"><span class="ename">&#193;lbum de Casamento</span><span class="eprice">R$ 2.500</span></div>
+      <div class="eitem reveal d2"><span class="ename">&#193;lbum de Ensaio</span><span class="eprice">R$ 1.200</span></div>
+      <div class="eitem reveal d3"><span class="ename">Fotos Adicionais no &#193;lbum</span><span class="eprice">R$ 30 / foto</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section class="contact-s" id="contato">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <div class="contact-info reveal-left">
+        <span class="tag">Contato</span>
+        <h2>Vamos conversar sobre<br>o <em>seu</em> grande dia?</h2>
+        <p>Datas se esgotam rapidamente. Entre em contato diretamente pelo WhatsApp &#8212; responderei em at&#233; 24 horas.</p>
+        <div class="contact-links">
+          <a href="https://wa.me/5517996278070" target="_blank" class="clink">
+            <div class="clink-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+            <div>
+              <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px">WhatsApp</div>
+              <div style="font-weight:500;color:#fff">(17) 99627-8070</div>
+            </div>
+          </a>
+          <a href="mailto:brunagionava00@gmail.com" class="clink">
+            <div class="clink-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div>
+              <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px">E-mail</div>
+              <div style="font-weight:500;color:#fff">brunagionava00@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://www.instagram.com/brurodriguesfotografia/" target="_blank" class="clink">
+            <div class="clink-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="#fff" stroke="none"/></svg></div>
+            <div>
+              <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px">Instagram</div>
+              <div style="font-weight:500;color:#fff">@brurodriguesfotografia</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal-right">
+        <div class="contact-form">
+          <div class="contact-form-inner">
+            <div class="form-title">Fale comigo agora</div>
+            <div class="form-sub" style="margin-bottom:28px">A forma mais r&#225;pida de agendar &#233; pelo WhatsApp &#128156;</div>
+            <a href="https://wa.me/5517996278070?text=Ol%C3%A1%2C%20Bruna!%20Vim%20pelo%20seu%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20pacotes%20de%20fotografia." target="_blank" class="wa-cta-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Enviar mensagem no WhatsApp
+            </a>
+            <p class="wa-hint">Ao clicar, voc&#234; ser&#225; redirecionado<br>ao WhatsApp com uma mensagem pronta &#10022;</p>
+
+            <!--
+            FORMULARIO DESATIVADO - aguardando integracao
+            com servico de envio (Formspree / EmailJS)
+
+            <div id="form-body">
+              <form id="contact-form" onsubmit="submitForm(event)">
+                <div class="field-row">
+                  <div class="field"><label>Nome</label><input type="text" placeholder="Seu nome" required/></div>
+                  <div class="field"><label>WhatsApp</label><input type="tel" placeholder="(17) 99999-0000" required/></div>
+                </div>
+                <div class="field"><label>E-mail</label><input type="email" placeholder="seuemail@gmail.com" required/></div>
+                <div class="field-row">
+                  <div class="field"><label>Data do Casamento</label><input type="date" required/></div>
+                  <div class="field">
+                    <label>Pacote de Interesse</label>
+                    <select>
+                      <option value="">Selecione...</option>
+                      <option>Essencial - R$ 2.350</option>
+                      <option>Classic - R$ 2.900</option>
+                      <option>Premium - R$ 3.400</option>
+                      <option>Ainda nao sei</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field"><label>Mensagem</label><textarea placeholder="Conte um pouco sobre o seu casamento..."></textarea></div>
+                <button type="submit" class="form-submit">Enviar Mensagem</button>
+              </form>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&#169; 2026 <strong>Bruna Rodrigues Fotografia</strong>. Todos os direitos reservados.<br>
+  S&#227;o Jos&#233; do Rio Preto &#8212; SP &nbsp;&#183;&nbsp; <a href="mailto:brunagionava00@gmail.com">brunagionava00@gmail.com</a></p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lg-backdrop" id="lg-backdrop">
+  <div class="lg-glass">
+    <button class="lg-close" onclick="closeLG()" aria-label="Fechar">&#10005;</button>
+    <button class="lg-nav lg-prev" onclick="prevLG()" aria-label="Anterior">&#8249;</button>
+    <img class="lg-img" id="lg-img" src="" alt=""/>
+    <button class="lg-nav lg-next" onclick="nextLG()" aria-label="Pr&#243;xima">&#8250;</button>
+  </div>
+</div>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
+
+  window.addEventListener('scroll', () => {
+    document.querySelector('header').style.boxShadow =
+      window.scrollY > 10 ? '0 4px 32px rgba(124,63,191,.13)' : '0 2px 24px rgba(124,63,191,.07)';
+  });
+
+  function toggleMobNav() {
+    const nav = document.getElementById('mob-nav');
+    const btn = document.getElementById('mob-menu-btn');
+    nav.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobNav() {
+    document.getElementById('mob-nav').classList.remove('open');
+    document.getElementById('mob-menu-btn').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('click', (e) => {
+    const nav = document.getElementById('mob-nav');
+    const btn = document.getElementById('mob-menu-btn');
+    if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) closeMobNav();
+  });
+
+  let lgIndex = 0;
+  const lgSrcs = [
+    'imgs/Captura de tela 2026-03-25 132609.png',
+    'imgs/Captura de tela 2026-03-25 132603.png',
+    'imgs/Captura de tela 2026-03-25 132555.png',
+    'imgs/Captura de tela 2026-03-25 132545.png',
+    'imgs/Captura de tela 2026-03-25 132536.png',
+    'imgs/Captura de tela 2026-03-25 132526.png',
+    'imgs/Captura de tela 2026-03-25 132518.png'
+  ];
+  function openLG(i) {
+    lgIndex = i;
+    document.getElementById('lg-img').src = lgSrcs[lgIndex];
+    document.getElementById('lg-backdrop').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLG() {
+    document.getElementById('lg-backdrop').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function nextLG() { lgIndex = (lgIndex + 1) % lgSrcs.length; document.getElementById('lg-img').src = lgSrcs[lgIndex]; }
+  function prevLG() { lgIndex = (lgIndex - 1 + lgSrcs.length) % lgSrcs.length; document.getElementById('lg-img').src = lgSrcs[lgIndex]; }
+  document.getElementById('lg-backdrop').addEventListener('click', (e) => { if (e.target.id === 'lg-backdrop') closeLG(); });
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lg-backdrop').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLG();
+    if (e.key === 'ArrowRight') nextLG();
+    if (e.key === 'ArrowLeft') prevLG();
+  });
+  let tsX = 0;
+  document.getElementById('lg-backdrop').addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, { passive:true });
+  document.getElementById('lg-backdrop').addEventListener('touchend', e => {
+    const diff = tsX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 48) diff > 0 ? nextLG() : prevLG();
+  });
+</script>
+</body>
+</html>
